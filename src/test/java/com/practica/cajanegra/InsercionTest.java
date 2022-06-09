@@ -79,8 +79,122 @@ public class InsercionTest {
     }
     @ParameterizedTest
     @MethodSource("addAtPos_insercionCorrectaParams")
-    public void addAtPos_insercionCorrectaTest(char element, int p, SingleLinkedListImpl<Character>esperada){ // Comprobar si se añade elemento correctamente.
+    public void addAtPos_insercionCorrectaTest(char element, int p, SingleLinkedListImpl<Character> esperada){ // Comprobar si se añade elemento correctamente.
         lista.addAtPos(element, p);
+        assertIterableEquals(esperada, lista);
+    }
+
+
+    /* ####################################################################
+     * ###                        TEST addFirst                         ###
+     * #################################################################### */
+
+    @ParameterizedTest
+    @CsvSource({
+            "'@'",
+            "'A'",
+            "'B'",
+            "'M'",
+            "'Y'",
+            "'Z'",
+            "'['",
+    })
+    public void addFirst_elementoValidoTest(char element){
+        assertThrows(IllegalArgumentException.class, () -> lista.addFirst(element));
+    }
+
+    private static Stream<Arguments> addFirst_insercionCorrectaParams(){
+        List<Arguments> args = new LinkedList<>();
+        args.add(Arguments.of('X', new SingleLinkedListImpl<>('A', 'B', 'C'), new SingleLinkedListImpl<>('X', 'A', 'B', 'C')));
+        args.add(Arguments.of('X', new SingleLinkedListImpl<>('A'), new SingleLinkedListImpl<>('X', 'A')));
+        args.add(Arguments.of('X', new SingleLinkedListImpl<>(), new SingleLinkedListImpl<>('X')));
+
+        return args.stream();
+    }
+    @ParameterizedTest
+    @MethodSource("addFirst_insercionCorrectaParams")
+    public void addFirst_insercionCorrectaTest(char element, SingleLinkedListImpl<Character> list, SingleLinkedListImpl<Character> esperada){
+        list.addFirst(element);
+        assertIterableEquals(esperada, list);
+    }
+
+    /* ####################################################################
+     * ###                        TEST addLast                          ###
+     * #################################################################### */
+    @ParameterizedTest
+    @CsvSource({
+            "'@'",
+            "'A'",
+            "'B'",
+            "'M'",
+            "'Y'",
+            "'Z'",
+            "'['",
+    })
+    public void addLast_elementoValidoTest(char element){
+        assertThrows(IllegalArgumentException.class, () -> lista.addLast(element));
+    }
+
+    private static Stream<Arguments> addLast_insercionCorrectaParams(){
+        List<Arguments> args = new LinkedList<>();
+        args.add(Arguments.of('X', new SingleLinkedListImpl<>('A', 'B', 'C'), new SingleLinkedListImpl<>('A', 'B', 'C', 'X')));
+        args.add(Arguments.of('X', new SingleLinkedListImpl<>('A'), new SingleLinkedListImpl<>('A', 'X')));
+        args.add(Arguments.of('X', new SingleLinkedListImpl<>(), new SingleLinkedListImpl<>('X')));
+
+        return args.stream();
+    }
+    @ParameterizedTest
+    @MethodSource("addLast_insercionCorrectaParams")
+    public void addLast_insercionCorrectaTest(char element, SingleLinkedListImpl<Character> list, SingleLinkedListImpl<Character> esperada){
+        list.addLast(element);
+        assertIterableEquals(esperada, list);
+    }
+
+
+    /* ####################################################################
+     * ###                        TEST addNTimes                        ###
+     * #################################################################### */
+
+    @ParameterizedTest
+    @CsvSource({
+            "'@', 1",
+            "'A', 1",
+            "'B', 1",
+            "'M', 1",
+            "'Y', 1",
+            "'Z', 1",
+            "'[', 1"
+    })
+    public void addNTimes_elementoValidoTest(char element, int n){
+        assertThrows(IllegalArgumentException.class, () -> lista.addNTimes(element, n));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "'M', -2",
+            "'M', -1",
+            "'M', 0",
+            "'M', 1",
+            "'M', 4",
+            "'M', 10"
+    })
+    public void addNTimes_NValidoTest(char element, int n){
+        assertThrows(IllegalArgumentException.class, () -> lista.addNTimes(element, n));
+    }
+
+    private static Stream<Arguments> addNTimes_insercionCorrectaParams(){
+        List<Arguments> args = new LinkedList<>();
+        args.add(Arguments.of('X', 0, new SingleLinkedListImpl<>('A', 'B', 'C', 'D', 'E')));
+        args.add(Arguments.of('X', 1, new SingleLinkedListImpl<>('A', 'B', 'C', 'D', 'E', 'X')));
+        args.add(Arguments.of('X', 2, new SingleLinkedListImpl<>('A', 'B', 'C', 'D', 'E', 'X', 'X')));
+        args.add(Arguments.of('X', 5, new SingleLinkedListImpl<>('A', 'B', 'C', 'D', 'E', 'X', 'X', 'X', 'X', 'X')));
+
+        return args.stream();
+    }
+    @ParameterizedTest
+    @MethodSource("addNTimes_insercionCorrectaParams")
+    public void addNTimes_insercionCorrectaTest(char element, int n, SingleLinkedListImpl<Character> esperada){
+        lista.addNTimes(element, n);
         assertIterableEquals(esperada, lista);
     }
 
