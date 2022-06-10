@@ -3,9 +3,14 @@ package com.practica.cajanegra;
 import com.cajanegra.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +22,7 @@ public class BusquedaTest {
     @BeforeEach
     public void inicio(){
         lista = new SingleLinkedListImpl<>('A', 'B', 'C', 'D', 'E');
-        listaRepetidos = new SingleLinkedListImpl<>('A', 'B', 'A', 'C', 'C', 'B');
+        listaRepetidos = new SingleLinkedListImpl<>('A', 'B', 'A', 'C', 'C', 'B', 'A');
     }
 
 
@@ -97,6 +102,50 @@ public class BusquedaTest {
          assertThrows(NoSuchElementException.class, () -> lista.indexOf(elem));
     }
 
+     /* ####################################################################
+     *  ###                        TEST isSubList                        ###
+     *  #################################################################### */
+     private static Stream<Arguments> isSubList_encontrarSublistaParams(){
+         List<Arguments> args = new LinkedList<>();
+         args.add(Arguments.of(1, new SingleLinkedListImpl<>('A', 'B', 'C', 'D', 'E')));
+         args.add(Arguments.of(2, new SingleLinkedListImpl<>('B', 'C', 'D')));
+         args.add(Arguments.of(-1, new SingleLinkedListImpl<>('B', 'A', 'D')));
+         args.add(Arguments.of(4, new SingleLinkedListImpl<>('D', 'E')));
+         args.add(Arguments.of(-1, new SingleLinkedListImpl<>('D', 'E', 'F')));
+         args.add(Arguments.of(-1, new SingleLinkedListImpl<>('A', 'C')));
+         args.add(Arguments.of(-1, new SingleLinkedListImpl<>('D', 'C')));
+         args.add(Arguments.of(1, new SingleLinkedListImpl<>('A')));
+         args.add(Arguments.of(5, new SingleLinkedListImpl<>('E')));
+         args.add(Arguments.of(0, new SingleLinkedListImpl<>()));
+         args.add(Arguments.of(0, null));
 
+         return args.stream();
+     }
+    @ParameterizedTest
+    @MethodSource("isSubList_encontrarSublistaParams")
+    public void isSubList_encontrarSublistaTest(int posicionEsperada, SingleLinkedListImpl<Character> part){
+        assertEquals(posicionEsperada, lista.isSubList(part));
+    }
+
+    private static Stream<Arguments> isSubList_encontrarSublistaElemRepetidosParams(){
+        List<Arguments> args = new LinkedList<>();
+        args.add(Arguments.of(1, new SingleLinkedListImpl<>('A', 'B', 'A', 'C', 'C', 'B', 'A')));
+        args.add(Arguments.of(2, new SingleLinkedListImpl<>('B', 'A', 'C')));
+        args.add(Arguments.of(-1, new SingleLinkedListImpl<>('A', 'A', 'C')));
+        args.add(Arguments.of(4, new SingleLinkedListImpl<>('C', 'C')));
+        args.add(Arguments.of(2, new SingleLinkedListImpl<>('B', 'A')));
+        args.add(Arguments.of(1, new SingleLinkedListImpl<>('A', 'B')));
+        args.add(Arguments.of(1, new SingleLinkedListImpl<>('A')));
+        args.add(Arguments.of(2, new SingleLinkedListImpl<>('B')));
+        args.add(Arguments.of(0, new SingleLinkedListImpl<>()));
+        args.add(Arguments.of(0, null));
+
+        return args.stream();
+    }
+    @ParameterizedTest
+    @MethodSource("isSubList_encontrarSublistaElemRepetidosParams")
+    public void isSubList_encontrarSublistaElemRepetidosTest(int posicionEsperada, SingleLinkedListImpl<Character> part){
+        assertEquals(posicionEsperada, listaRepetidos.isSubList(part));
+    }
 
 }
