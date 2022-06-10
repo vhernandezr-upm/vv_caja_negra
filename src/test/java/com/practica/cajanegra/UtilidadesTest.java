@@ -89,6 +89,15 @@ public class UtilidadesTest {
          assertEquals(tamanoEsperado, lista.size());
     }
 
+     /* ####################################################################
+     *  ###                        TEST toString                         ###
+     *  #################################################################### */
+
+    @Test
+    public void toString_listaToStringTest(){
+        assertEquals(lista.toString(), "[A, B, C, D, E]");
+    }
+
 }
 
 
