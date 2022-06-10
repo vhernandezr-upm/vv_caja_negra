@@ -3,14 +3,9 @@ package com.practica.cajanegra;
 import com.cajanegra.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
