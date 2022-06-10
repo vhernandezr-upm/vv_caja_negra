@@ -69,4 +69,26 @@ public class UtilidadesTest {
         lista.reverse();
         assertIterableEquals(listaInicial, lista);
     }
+
+     /* ####################################################################
+     *  ###                        TEST size                             ###
+     *  #################################################################### */
+     private static Stream<Arguments> size_tamanoParams(){
+         List<Arguments> args = new LinkedList<>();
+         args.add(Arguments.of(new SingleLinkedListImpl<>('X', 'A', 'B', 'C', 'D', 'E'), 6));
+         args.add(Arguments.of(new SingleLinkedListImpl<>('A', 'B', 'X'), 3));
+         args.add(Arguments.of(new SingleLinkedListImpl<>('A', 'B'), 2));
+         args.add(Arguments.of(new SingleLinkedListImpl<>('A'), 1));
+         args.add(Arguments.of(new SingleLinkedListImpl<>(), 0));
+
+         return args.stream();
+     }
+    @ParameterizedTest
+    @MethodSource("size_tamanoParams")
+    public void size_tamanoTest(SingleLinkedListImpl<Character> lista, int tamanoEsperado){
+         assertEquals(tamanoEsperado, lista.size());
+    }
+
 }
+
+
